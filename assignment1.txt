@@ -1,0 +1,33 @@
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_CH03_Original_Images\DIP3E_Original_Images_CH03\2.tif');
+[height,width]=size(img);
+figure;
+imshow(img);
+images_histogram=zeros(1,256);
+for i=1:height
+for j=1:width
+images_histogram(img(i,j)+1)	=	images_histogram(img(i,j)+1)	+1;	
+end
+end
+figure;
+bar(images_histogram);
+k=256;
+cumulative=zeros(1,256);
+for i=1:k;
+if i==1
+cumulative=images_histogram(1);
+else
+cumulative(i)	=	cumulative(i-1)	+	images_histogram(i);
+end
+end
+figure;
+bar(cumulative);
+Pr=cumulative/(width*height);
+S=round(255*Pr);
+for i=1:height
+for j=1:width
+new_img(i,j)=S(img(i,j)+1);
+end
+end
+f_img=uint8(new_img);
+figure;
+imshow(f_img);
