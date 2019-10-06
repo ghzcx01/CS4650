@@ -1,0 +1,235 @@
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_Original_Images_CH03\2.tif');
+[height,width]=size(img);
+a=1/9*[1,1,1,;1,1,1,;1,1,1];
+b=conv2(double(img),double(a));
+c=uint8(b);
+figure;
+imshow(c);
+figure;
+imshow(img);
+
+
+
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_Original_Images_CH03\7.tif');
+gauss=(1/(2*pi))*[exp(-((1-2)^2+(1-2)^2)/2),exp(-((1-2)^2+(2-2)^2)/2),exp(-((1-2)^2+(3-2)^2)/2);
+exp(-((2-2)^2+(1-2)^2)/2),exp(-((2-2)^2+(2-2)^2)/2),exp(-((2-2)^2+(3-2)^2)/2);
+exp(-((3-2)^2+(1-2)^2)/2),exp(-((3-2)^2+(2-2)^2)/2),exp(-((3-2)^2+(3-2)^2)/2)];
+d=conv2(double(img),double(gauss));
+d=uint8(d);
+imshow(d);
+
+
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_Original_Images_CH03\3.tif');
+imshow(img)
+[height,width]=size(img);
+x1=img;
+x1=padarray(x1,[1 1]);
+for i=1:height-2
+for j=1:width-2
+mb=x1(i:(i+2),j:(j+2));
+mb=mb(:);
+mm=median(mb);
+x2( i+(2)/2,  j+(2)/2 ) = mm;
+end
+end
+img=uint8(x2);
+imshow(img);
+
+
+
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_Original_Images_CH03\4.tif');
+figure,imshow(img);
+a=[0,-1,0;-1,4,-1;0,-1,0];
+b=conv2(img,a);
+imshow(img)
+[height,width]=size(img);
+for i=1:height
+for j=1:width
+iimg(i,j)=img(i,j)+b(i,j);
+end
+end
+uint8(iimg);
+figure,imshow(iimg);
+
+
+
+
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_Original_Images_CH03\5.png');%read
+img=rgb2gray(img);%covert to gray
+d=img;
+positionVector1 = [0, 0.2, 0.5, 0.3];
+a1=subplot(6,2,1,'Position',positionVector1);
+
+imshow(d);
+d1=d;
+
+xs = get(a1, 'xlim'); ys = get(a1, 'ylim');
+
+gauss=(1/(2*pi))*[exp(-((1-2)^2+(1-2)^2)/2),exp(-((1-2)^2+(2-2)^2)/2),exp(-((1-2)^2+(3-2)^2)/2);
+exp(-((2-2)^2+(1-2)^2)/2),exp(-((2-2)^2+(2-2)^2)/2),exp(-((2-2)^2+(3-2)^2)/2);
+exp(-((3-2)^2+(1-2)^2)/2),exp(-((3-2)^2+(2-2)^2)/2),exp(-((3-2)^2+(3-2)^2)/2)];%gaussain kernel
+
+[height,width]=size(d);
+d=conv2(double(d),double(gauss));
+d=uint8(d);
+
+
+d([1],:)=[];
+d([height+1],:)=[];
+d(:,[1])=[];
+d(:,[width+1])=[];
+
+d = d(1:2:height,1:2:width);%downsampled
+positionVector2 = [0.1475, 0.2, 0.5, 0.3];
+a2=subplot(6,2,2,'Position',positionVector2);
+
+imshow(d);%show the first time gaussain
+set(a2, 'xlim', xs, 'ylim', ys);
+d2=d;
+
+
+
+[height,width]=size(d);%record size
+d=conv2(double(d),double(gauss));%first time convolution
+d=uint8(d);
+
+
+d([1],:)=[];
+d([height+1],:)=[];
+d(:,[1])=[];
+d(:,[width+1])=[];
+
+d = d(1:2:height,1:2:width);%downsampled
+positionVector2 = [0.1475, 0.05, 0.5, 0.3];
+a2=subplot(6,2,2,'Position',positionVector2);
+
+imshow(d);%show the first time gaussain
+set(a2, 'xlim', xs, 'ylim', ys);
+d3=d;
+
+[height,width]=size(d);%record size
+d=conv2(double(d),double(gauss));%first time convolution
+d=uint8(d);
+
+
+d([1],:)=[];
+d([height+1],:)=[];
+d(:,[1])=[];
+d(:,[width+1])=[];
+
+d = d(1:2:height,1:2:width);%downsampled
+positionVector2 = [0.1475, -0.025, 0.5, 0.3];
+a2=subplot(6,2,2,'Position',positionVector2);
+
+imshow(d);%show the first time gaussain
+set(a2, 'xlim', xs, 'ylim', ys);
+
+d4=d;
+
+
+
+
+
+[height,width]=size(d);%record size
+d=conv2(double(d),double(gauss));%first time convolution
+d=uint8(d);
+
+
+d([1],:)=[];
+d([height+1],:)=[];
+d(:,[1])=[];
+d(:,[width+1])=[];
+
+d = d(1:2:height,1:2:width);%downsampled
+positionVector2 = [0.1475, -0.0625, 0.5, 0.3];
+a2=subplot(6,2,2,'Position',positionVector2);
+
+imshow(d);%show the first time gaussain
+set(a2, 'xlim', xs, 'ylim', ys);
+
+d5=d;
+
+
+
+
+
+[height,width]=size(d);%record size
+d=conv2(double(d),double(gauss));%first time convolution
+d=uint8(d);
+
+
+d([1],:)=[];
+d([height+1],:)=[];
+d(:,[1])=[];
+d(:,[width+1])=[];
+
+d = d(1:2:height,1:2:width);%downsampled
+positionVector2 = [0.1475, -0.08, 0.5, 0.3];
+a2=subplot(6,2,2,'Position',positionVector2);
+
+imshow(d);%show the first time gaussain
+set(a2, 'xlim', xs, 'ylim', ys);
+
+
+d6=d;
+
+
+
+[height,width]=size(d);%record size
+d=conv2(double(d),double(gauss));%first time convolution
+d=uint8(d);
+
+
+d([1],:)=[];
+d([height+1],:)=[];
+d(:,[1])=[];
+d(:,[width+1])=[];
+
+d = d(1:2:height,1:2:width);%downsampled
+positionVector2 = [0.1475, -0.09, 0.5, 0.3];
+a2=subplot(6,2,2,'Position',positionVector2);
+
+imshow(d);%show the first time gaussain
+set(a2, 'xlim', xs, 'ylim', ys);
+
+
+d7=d;
+
+
+subplot(1,7,1);
+imshow(d1);
+k=ones(2);
+k=uint8(k);
+q=kron(d2,k);
+subplot(1,7,2);
+imshow(q);
+k=ones(4);
+k=uint8(k);
+q=kron(d3,k);
+subplot(1,7,3);
+imshow(q);
+k=ones(8);
+k=uint8(k);
+q=kron(d4,k);
+subplot(1,7,4);
+imshow(q);
+k=ones(16);
+k=uint8(k);
+q=kron(d5,k);
+subplot(1,7,5);
+imshow(q);
+k=ones(32);
+k=uint8(k);
+q=kron(d6,k);
+subplot(1,7,6);
+imshow(q);
+k=ones(64);
+k=uint8(k);
+q=kron(d7,k);
+subplot(1,7,7);
+imshow(q);
+
+
+
+
+
