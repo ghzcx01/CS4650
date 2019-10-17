@@ -1,0 +1,126 @@
+%gaussain
+img=imread('C:\Users\ghzcx\Desktop\DIP3E_Original_Images_CH10\5.png');
+sigma = 2;
+img=rgb2gray(img);
+gausFilter = fspecial('gaussian',[3 3],sigma);
+img=imfilter(img,gausFilter,'replicate');
+
+Sx=[-1,0,1;-2,0,2;-1,0,1];
+Sy=[-1,-2,-1;0,0,0;1,2,1];
+Px=[-1,0,1;-1,0,1;-1,0,1];
+Py=[-1,-1,-1;0,0,0;1,1,1];
+
+Fx=conv2(Sx,img);
+Fy=conv2(Sy,img);
+
+
+
+intFx=uint8(Fx);
+intFy=uint8(Fy);
+
+F=sqrt(Fx.^2+Fy.^2);
+
+D=atan(Fy/Fx);
+intD=atan(double(intFy./intFx));
+figure,imshow(uint8(F));
+
+%non maximum suppression
+
+D=uint8(intD);
+I=F;
+[height,width]=size(img);
+for i=2:height
+for j=2:width
+if(D(i,j)==0)
+if(F(i,j)<=F(i-1,j)|F(i,j)<=F(i+1,j))
+I(i,j)=0;
+end
+end
+if(D(i,j)==1)
+if(F(i,j)<=F(i+1,j-1)|F(i,j)<=F(i-1,j+1))
+I(i,j)=0;
+end
+end
+if(D(i,j)==2)
+if(F(i,j)<=F(i,j-1)|F(i,j)<=F(i,j+1))
+I(i,j)=0;
+end
+end
+if(D(i,j)==3)
+if(F(i,j)<=F(i-1,j-1)|F(i,j)<=F(i+1,j+1))
+I(i,j)=0;
+end
+end
+end
+end
+figure,imshow(uint8(I));
+
+
+%threshold
+
+
+T_H=50;T_L=20;
+
+q=zeros(height,width);
+s=zeros(height,width);
+
+for i=1:height
+for j=1:width
+if (I(i,j)>T_H)
+I(i,j)=255;
+end
+end
+end
+
+for i=1:height
+for j=1:width
+if I(i,j)<T_L
+I(i,j)=0;
+end
+end
+end
+
+for i=1:height
+for j=1:width
+if (I(i,j)>T_L&&I(i,j)<T_H)
+q(i,j)=1;
+end
+end
+end
+
+
+for i=2:height
+for j=2:width
+if(q(i,j)==1)
+if(I(i-1,j-1)==255|I(i,j-1)==255|I(i+1,j-1)==255|I(i-1,j)==255|I(i+1,j)==255|I(i-1,j+1)==255|I(i,j+1)==255|I(i+1,j+1)==255)
+I(i,j)=255;
+end
+end
+end
+end
+
+
+
+
+
+
+
+
+for i=1:height
+for j=1:width 
+if(I(i,j)>T_L&&I(i,j)<T_H)
+I(i,j)=0;
+end
+end
+end
+
+
+figure,imshow(uint8(I));
+
+
+
+
+
+
+
+
